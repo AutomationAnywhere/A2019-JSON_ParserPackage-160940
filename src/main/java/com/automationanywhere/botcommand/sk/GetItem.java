@@ -40,6 +40,8 @@ public class GetItem {
 		
 		DictionaryValue map = parser.queryJSON(jsonstring, query);
 		
+	    parser = null;
+		
 		return map;
 	}
 

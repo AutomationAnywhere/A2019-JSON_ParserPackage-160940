@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.automationanywhere.botcommand.data.Value;
@@ -112,6 +114,22 @@ public class JSONUtils {
 		DictionaryValue map = parseJSONObj(json);
 		
 		return map;
+			
+	}
+	
+	
+	public BooleanValue validateJSON(String jsonstring ) {
+		
+		try {
+			new JSONObject(jsonstring);
+		} catch (JSONException ex) {
+			try {
+				new JSONArray(jsonstring);
+			} catch (JSONException ex1) {
+				return new BooleanValue(false);
+			}
+		}
+		return new BooleanValue(true);
 			
 	}
 	
@@ -251,12 +269,12 @@ public class JSONUtils {
 	
 	}
 	
-	public String toJSON(Map<String,Value> value) {
-		String jsonString = "";
+	public String toJSON(Map<String,Value> value,Boolean unescape) {
 		
 		JSONObject jsonObject = parseValue(value);
-		
-		return jsonObject.toString();
+		String jsonString = jsonObject.toString();
+		jsonString = (unescape) ? StringEscapeUtils.unescapeJava(jsonString) : jsonString ;
+		return jsonString;
 	 
 	}
 	
@@ -265,7 +283,6 @@ public class JSONUtils {
 		Double dvalue = value.get();
 		Integer ivalue = dvalue.intValue();
 		Double diff = dvalue - Double.valueOf(ivalue);
-		System.out.println("Diff" +diff);
 		return (diff != 0.0000000000);
 		
 		

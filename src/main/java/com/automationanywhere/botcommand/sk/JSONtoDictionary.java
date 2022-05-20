@@ -37,6 +37,8 @@ public class JSONtoDictionary {
 		
 		DictionaryValue map = parser.parseJSON(jsonstring);
 		
+		parser = null;
+		
 		return map;
 	}
 

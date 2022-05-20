@@ -35,15 +35,16 @@ import com.automationanywhere.commandsdk.annotations.Execute;
 public class DictionarytoJSON {
 	   
 	@Execute
-    public StringValue  action(@Idx(index = "1", type = AttributeType.VARIABLE )  @Pkg(label = "Dictionary with key/value pairs"  , default_value_type = DataType.DICTIONARY ) @NotEmpty Map<String,Value> inputdict
+    public StringValue  action(@Idx(index = "1", type = AttributeType.VARIABLE )  @Pkg(label = "Dictionary with key/value pairs"  , default_value_type = DataType.DICTIONARY ) @NotEmpty Map<String,Value> inputdict,
+    		                   @Idx(index = "2", type = AttributeType.BOOLEAN )  @Pkg(label = "Unescape control characters"  , default_value_type = DataType.BOOLEAN, default_value = "true" ) @NotEmpty Boolean unescape
                                       ) throws Exception
      {
 
 		JSONUtils parser = new JSONUtils();
 		
-		String jsonstring = parser.toJSON(inputdict);
+		String jsonstring = parser.toJSON(inputdict,unescape);
 		
-	
+	    parser = null;
 		
 		return new StringValue(jsonstring);
 
